@@ -48,7 +48,6 @@ def get_cems(snap_date):
     column_names = ['cno', 'polno', 'm_time','item']
     df.drop_duplicates(subset=column_names, keep='first', inplace=True)
     # insert data
-    print(f'mysql+pymysql://{db_info["user"]}:{db_info["pass"]}@{db_info["host"]}:3306/{db_info["schema"]}')
     sqlEngine = create_engine(f'mysql+pymysql://{db_info["user"]}:{db_info["pass"]}@{db_info["host"]}:3306/{db_info["schema"]}')
     print('insert data rows: ',len(df))
     df.to_sql('ods_cems',sqlEngine,if_exists='append',index = False)
