@@ -22,6 +22,7 @@ config = configparser.ConfigParser()
 config.read(path)
 db_info = config["CEMS_DB"]
 key_info = config["API_KEY"]
+target_table = 'ods_cems'
 
 def get_cems(snap_date):
     df = pd.DataFrame()
@@ -50,7 +51,7 @@ def get_cems(snap_date):
     # insert data
     sqlEngine = create_engine(f'mysql+pymysql://{db_info["user"]}:{db_info["pass"]}@{db_info["host"]}:3306/{db_info["schema"]}')
     print('insert data rows: ',len(df))
-    df.to_sql('ods_cems',sqlEngine,if_exists='append',index = False)
+    df.to_sql(target_table,sqlEngine,if_exists='append',index = False)
     sqlEngine.dispose()
 
 with DAG('CEMS_ETL', default_args=default_args) as dag:
